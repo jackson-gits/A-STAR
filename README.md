@@ -1,6 +1,11 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+
+```
+Name         : Jackson Raj A
+Register No. : 212223040071
+
+```
+
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
@@ -56,6 +61,65 @@
 
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/b1377c3f-011a-4c0f-a843-516842ae056a)
 
+
+## Code
+```
+import heapq
+
+def a_star(graph, start, goal, heuristics):
+    # Priority queue: (f_score, current_node, path)
+    pq = [(heuristics[start], start, [start])]
+    visited = set()
+
+    while pq:
+        f_score, current, path = heapq.heappop(pq)
+
+        if current == goal:
+            return path
+
+        if current in visited:
+            continue
+        visited.add(current)
+
+        for neighbor, cost in graph[current]:
+            if neighbor not in visited:
+                g = f_score - heuristics[current] + cost  # g = actual cost from start
+                f = g + heuristics[neighbor]              # f = g + h
+                heapq.heappush(pq, (f, neighbor, path + [neighbor]))
+    
+    return None
+
+def main():
+    # Read number of nodes and edges
+    n, m = map(int, input().split())
+
+    # Read edges with weights
+    graph = {}
+    for _ in range(m):
+        u, v, w = input().split()
+        w = int(w)
+        graph.setdefault(u, []).append((v, w))
+        graph.setdefault(v, []).append((u, w))  # Assuming undirected graph
+
+    # Read heuristics
+    heuristics = {}
+    for _ in range(n):
+        node, h = input().split()
+        heuristics[node] = int(h)
+
+    start = 'A'
+    goal = 'J'
+
+    path = a_star(graph, start, goal, heuristics)
+    if path:
+        print("Path found:", path)
+    else:
+        print("No path found")
+
+if __name__ == "__main__":
+    main()
+
+```
 <hr>
 <h2>Sample Input</h2>
 <hr>
@@ -117,3 +181,9 @@ G 0 <br>
 <h2>Sample Output</h2>
 <hr>
 Path found: ['A', 'E', 'D', 'G']
+
+## Output
+<img width="814" height="436" alt="exp_4" src="https://github.com/user-attachments/assets/c34c5805-1078-4310-b8cd-bcdf5164a0b3" />
+
+## Results
+The A* search algorithm has been implemented successfully.
